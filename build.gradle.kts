@@ -67,7 +67,11 @@ kotlin {
                 implementation("io.mockative:mockative:2.0.1")
             }
         }
-        val jvmMain by getting
+        val jvmMain by getting {
+            dependencies {
+                implementation("uk.co.lucasweb:aws-v4-signer-java:1.3")
+            }
+        }
         val jvmTest by getting
         val jsMain by getting
         val jsTest by getting

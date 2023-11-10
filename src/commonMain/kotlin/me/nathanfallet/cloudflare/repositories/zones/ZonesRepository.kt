@@ -38,4 +38,11 @@ class ZonesRepository(
             .body<CloudflareResponse<List<Zone>>>().result ?: emptyList()
     }
 
+    override suspend fun purgeCache(id: String, values: List<String>, key: String) {
+        cloudflareClient.createRequest(HttpMethod.Post, "/zones/$id/purge_cache") {
+            contentType(ContentType.Application.Json)
+            setBody(mapOf(key to values))
+        }
+    }
+
 }
