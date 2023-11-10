@@ -5,14 +5,14 @@ import io.ktor.client.request.*
 import io.ktor.http.*
 import me.nathanfallet.cloudflare.client.CloudflareClient
 import me.nathanfallet.cloudflare.models.CloudflareResponse
-import me.nathanfallet.cloudflare.models.zones.CreateZonePayload
 import me.nathanfallet.cloudflare.models.zones.Zone
+import me.nathanfallet.cloudflare.models.zones.ZonePayload
 
 class ZonesRepository(
     private val cloudflareClient: CloudflareClient
 ) : IZonesRepository {
 
-    override suspend fun create(payload: CreateZonePayload): Zone? {
+    override suspend fun create(payload: ZonePayload): Zone? {
         return cloudflareClient.createRequest(HttpMethod.Post, "/zones") {
             contentType(ContentType.Application.Json)
             setBody(payload)
@@ -29,8 +29,11 @@ class ZonesRepository(
             .body<CloudflareResponse<Zone>>().result
     }
 
-    override suspend fun update(id: String, payload: Unit): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun update(id: String, payload: ZonePayload): Boolean {
+        return cloudflareClient.createRequest(HttpMethod.Put, "/zones/$id") {
+            contentType(ContentType.Application.Json)
+            setBody(payload)
+        }.body<CloudflareResponse<Zone>>().result != null
     }
 
     override suspend fun list(): List<Zone> {
