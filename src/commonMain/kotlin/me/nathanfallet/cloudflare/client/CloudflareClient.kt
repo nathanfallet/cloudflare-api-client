@@ -8,6 +8,8 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNamingStrategy
+import me.nathanfallet.cloudflare.repositories.dns.records.DNSRecordsRepository
 import me.nathanfallet.cloudflare.repositories.zones.ZonesRepository
 
 class CloudflareClient(
@@ -26,6 +28,7 @@ class CloudflareClient(
             json(Json {
                 ignoreUnknownKeys = true
                 explicitNulls = false
+                namingStrategy = JsonNamingStrategy.SnakeCase
             })
         }
     }
@@ -43,5 +46,6 @@ class CloudflareClient(
     }
 
     override val zones = ZonesRepository(this)
+    override val dnsRecords = DNSRecordsRepository(this)
 
 }
