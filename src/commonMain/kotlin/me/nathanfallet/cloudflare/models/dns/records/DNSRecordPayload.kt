@@ -7,8 +7,8 @@ data class DNSRecordPayload(
     val name: String,
     val content: String,
     val type: String,
-    val proxied: Boolean?,
-    val comment: String?,
-    val tags: List<String>?,
-    val ttl: Int?,
+    val proxied: Boolean? = null,
+    val comment: String? = null,
+    val tags: List<String>? = null,
+    val ttl: Int? = null,
 )

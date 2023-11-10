@@ -9,13 +9,13 @@ import me.nathanfallet.usecases.models.IModel
 @Serializable
 data class Zone(
     override val id: String,
-    val name: String?,
-    val account: Account?,
-    val createdOn: Instant?,
-    val activatedOn: Instant?,
-    val modifiedOn: Instant?,
-    @SerialName("original_dnshost") val originalDNSHost: String?,
-    val originalNameServers: List<String>?,
-    val originalRegistrar: String?,
-    val vanityNameServers: List<String>?,
+    val name: String? = null,
+    val account: Account? = null,
+    val createdOn: Instant? = null,
+    val activatedOn: Instant? = null,
+    val modifiedOn: Instant? = null,
+    @SerialName("original_dnshost") val originalDNSHost: String? = null,
+    val originalNameServers: List<String>? = null,
+    val originalRegistrar: String? = null,
+    val vanityNameServers: List<String>? = null,
 ) : IModel<String, ZonePayload, ZonePayload>
