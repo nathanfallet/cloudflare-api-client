@@ -7,13 +7,37 @@ plugins {
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.0.1"
+version = "4.0.2"
 
 repositories {
     mavenCentral()
 }
 
 kotlin {
+    // Tiers are in accordance with <https://kotlinlang.org/docs/native-target-support.html>
+    // Tier 1
+    macosX64()
+    macosArm64()
+    iosSimulatorArm64()
+    iosX64()
+
+    // Tier 2
+    linuxX64()
+    linuxArm64()
+    watchosSimulatorArm64()
+    watchosX64()
+    watchosArm32()
+    watchosArm64()
+    tvosSimulatorArm64()
+    tvosX64()
+    tvosArm64()
+    iosArm64()
+
+    // Tier 3
+    mingwX64()
+    watchosDeviceArm64()
+
+    // jvm & js
     jvm {
         jvmToolchain(19)
         withJava()
@@ -24,28 +48,16 @@ kotlin {
         }
     }
     js {
-        browser {
-            commonWebpackConfig {
-                cssSupport {
-                    enabled.set(true)
-                }
-            }
-        }
-    }
-    val hostOs = System.getProperty("os.name")
-    val isArm64 = System.getProperty("os.arch") == "aarch64"
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" && isArm64 -> macosArm64("native")
-        hostOs == "Mac OS X" && !isArm64 -> macosX64("native")
-        hostOs == "Linux" && isArm64 -> linuxArm64("native")
-        hostOs == "Linux" && !isArm64 -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+        binaries.library()
+        nodejs()
+        browser()
+        //generateTypeScriptDefinitions() // Not supported for now because of collections etc...
     }
 
+    applyDefaultHierarchyTemplate()
+
     val coroutinesVersion = "1.7.3"
-    val ktorVersion = "2.3.4"
+    val ktorVersion = "2.3.6"
 
     sourceSets {
         val commonMain by getting {
@@ -57,8 +69,8 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-auth:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation("me.nathanfallet.usecases:usecases:1.2.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+                implementation("me.nathanfallet.usecases:usecases:1.2.1")
             }
         }
         val commonTest by getting {
@@ -72,11 +84,6 @@ kotlin {
                 implementation("uk.co.lucasweb:aws-v4-signer-java:1.3")
             }
         }
-        val jvmTest by getting
-        val jsMain by getting
-        val jsTest by getting
-        val nativeMain by getting
-        val nativeTest by getting
     }
 }
 
