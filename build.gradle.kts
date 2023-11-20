@@ -70,7 +70,8 @@ kotlin {
                 implementation("io.ktor:ktor-client-auth:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
-                implementation("me.nathanfallet.usecases:usecases:1.2.1")
+
+                api("me.nathanfallet.usecases:usecases:1.2.3")
             }
         }
         val commonTest by getting {
