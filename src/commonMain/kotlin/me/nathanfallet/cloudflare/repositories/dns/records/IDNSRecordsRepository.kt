@@ -5,8 +5,4 @@ import me.nathanfallet.cloudflare.models.dns.records.DNSRecordPayload
 import me.nathanfallet.usecases.models.repositories.IChildModelSuspendRepository
 
 interface IDNSRecordsRepository :
-    IChildModelSuspendRepository<DNSRecord, String, DNSRecordPayload, DNSRecordPayload, String> {
-
-    suspend fun list(parentId: String): List<DNSRecord>
-
-}
+    IChildModelSuspendRepository<DNSRecord, String, DNSRecordPayload, DNSRecordPayload, String>
