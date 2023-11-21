@@ -12,6 +12,19 @@ class ZonesRepository(
     private val cloudflareClient: CloudflareClient
 ) : IZonesRepository {
 
+    override suspend fun list(): List<Zone> {
+        return cloudflareClient.createRequest(HttpMethod.Get, "/zones")
+            .body<CloudflareResponse<List<Zone>>>().result ?: emptyList()
+    }
+
+    override suspend fun list(limit: Long, offset: Long): List<Zone> {
+        val page = (offset / limit) + 1
+        return cloudflareClient.createRequest(HttpMethod.Get, "/zones") {
+            parameter("per_page", limit)
+            parameter("page", page)
+        }.body<CloudflareResponse<List<Zone>>>().result ?: emptyList()
+    }
+
     override suspend fun create(payload: ZonePayload): Zone? {
         return cloudflareClient.createRequest(HttpMethod.Post, "/zones") {
             contentType(ContentType.Application.Json)
@@ -34,11 +47,6 @@ class ZonesRepository(
             contentType(ContentType.Application.Json)
             setBody(payload)
         }.body<CloudflareResponse<Zone>>().result != null
-    }
-
-    override suspend fun list(): List<Zone> {
-        return cloudflareClient.createRequest(HttpMethod.Get, "/zones")
-            .body<CloudflareResponse<List<Zone>>>().result ?: emptyList()
     }
 
     override suspend fun purgeCache(id: String, values: List<String>, key: String) {

@@ -12,6 +12,19 @@ class DNSRecordsRepository(
     private val cloudflareClient: CloudflareClient
 ) : IDNSRecordsRepository {
 
+    override suspend fun list(parentId: String): List<DNSRecord> {
+        return cloudflareClient.createRequest(HttpMethod.Get, "/zones/$parentId/dns_records")
+            .body<CloudflareResponse<List<DNSRecord>>>().result ?: emptyList()
+    }
+
+    override suspend fun list(limit: Long, offset: Long, parentId: String): List<DNSRecord> {
+        val page = (offset / limit) + 1
+        return cloudflareClient.createRequest(HttpMethod.Get, "/zones/$parentId/dns_records") {
+            parameter("per_page", limit)
+            parameter("page", page)
+        }.body<CloudflareResponse<List<DNSRecord>>>().result ?: emptyList()
+    }
+
     override suspend fun create(payload: DNSRecordPayload, parentId: String): DNSRecord? {
         return cloudflareClient.createRequest(HttpMethod.Post, "/zones/$parentId/dns_records") {
             contentType(ContentType.Application.Json)
@@ -34,11 +47,6 @@ class DNSRecordsRepository(
             contentType(ContentType.Application.Json)
             setBody(payload)
         }.body<CloudflareResponse<DNSRecord>>().result != null
-    }
-
-    override suspend fun list(parentId: String): List<DNSRecord> {
-        return cloudflareClient.createRequest(HttpMethod.Get, "/zones/$parentId/dns_records")
-            .body<CloudflareResponse<List<DNSRecord>>>().result ?: emptyList()
     }
 
 }
