@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.0.3"
+version = "4.0.4"
 
 repositories {
     mavenCentral()
@@ -58,6 +58,7 @@ kotlin {
 
     val coroutinesVersion = "1.7.3"
     val ktorVersion = "2.3.6"
+    val usecasesVersion = "1.3.1"
 
     sourceSets {
         val commonMain by getting {
@@ -71,7 +72,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
                 api("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
-                api("me.nathanfallet.usecases:usecases:1.3.0")
+                api("me.nathanfallet.usecases:usecases:$usecasesVersion")
             }
         }
         val commonTest by getting {
