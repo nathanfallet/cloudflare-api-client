@@ -7,6 +7,7 @@ import me.nathanfallet.cloudflare.client.CloudflareClient
 import me.nathanfallet.cloudflare.models.CloudflareResponse
 import me.nathanfallet.cloudflare.models.zones.Zone
 import me.nathanfallet.cloudflare.models.zones.ZonePayload
+import me.nathanfallet.usecases.users.IUser
 
 class ZonesRepository(
     private val cloudflareClient: CloudflareClient
@@ -25,7 +26,7 @@ class ZonesRepository(
         }.body<CloudflareResponse<List<Zone>>>().result ?: emptyList()
     }
 
-    override suspend fun create(payload: ZonePayload): Zone? {
+    override suspend fun create(payload: ZonePayload, user: IUser?): Zone? {
         return cloudflareClient.createRequest(HttpMethod.Post, "/zones") {
             contentType(ContentType.Application.Json)
             setBody(payload)
@@ -42,7 +43,7 @@ class ZonesRepository(
             .body<CloudflareResponse<Zone>>().result
     }
 
-    override suspend fun update(id: String, payload: ZonePayload): Boolean {
+    override suspend fun update(id: String, payload: ZonePayload, user: IUser?): Boolean {
         return cloudflareClient.createRequest(HttpMethod.Put, "/zones/$id") {
             contentType(ContentType.Application.Json)
             setBody(payload)
