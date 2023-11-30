@@ -7,6 +7,7 @@ import me.nathanfallet.cloudflare.client.CloudflareClient
 import me.nathanfallet.cloudflare.models.CloudflareResponse
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecord
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecordPayload
+import me.nathanfallet.usecases.users.IUser
 
 class DNSRecordsRepository(
     private val cloudflareClient: CloudflareClient
@@ -25,7 +26,7 @@ class DNSRecordsRepository(
         }.body<CloudflareResponse<List<DNSRecord>>>().result ?: emptyList()
     }
 
-    override suspend fun create(payload: DNSRecordPayload, parentId: String): DNSRecord? {
+    override suspend fun create(payload: DNSRecordPayload, parentId: String, user: IUser?): DNSRecord? {
         return cloudflareClient.createRequest(HttpMethod.Post, "/zones/$parentId/dns_records") {
             contentType(ContentType.Application.Json)
             setBody(payload)
@@ -42,7 +43,7 @@ class DNSRecordsRepository(
             .body<CloudflareResponse<DNSRecord>>().result
     }
 
-    override suspend fun update(id: String, payload: DNSRecordPayload, parentId: String): Boolean {
+    override suspend fun update(id: String, payload: DNSRecordPayload, parentId: String, user: IUser?): Boolean {
         return cloudflareClient.createRequest(HttpMethod.Put, "/zones/$parentId/dns_records/$id") {
             contentType(ContentType.Application.Json)
             setBody(payload)
