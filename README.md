@@ -12,7 +12,7 @@ Kotlin Cloudflare API client
 Add dependency to your `build.gradle` or `pom.xml`:
 
 ```groovy
-compile 'me.nathanfallet.cloudflare:cloudflare-api-client:4.0.6'
+compile 'me.nathanfallet.cloudflare:cloudflare-api-client:4.0.7'
 ```
 
 ```xml
@@ -20,6 +20,6 @@ compile 'me.nathanfallet.cloudflare:cloudflare-api-client:4.0.6'
 <dependency>
     <groupId>me.nathanfallet.cloudflare</groupId>
     <artifactId>cloudflare-api-client-jvm</artifactId>
-    <version>4.0.6</version>
+    <version>4.0.7</version>
 </dependency>
 ```
