@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.0.9"
+version = "4.0.10"
 
 repositories {
     mavenCentral()
@@ -58,7 +58,7 @@ kotlin {
 
     val coroutinesVersion = "1.7.3"
     val ktorVersion = "2.3.6"
-    val usecasesVersion = "1.5.2"
+    val usecasesVersion = "1.5.3"
 
     sourceSets {
         val commonMain by getting {
