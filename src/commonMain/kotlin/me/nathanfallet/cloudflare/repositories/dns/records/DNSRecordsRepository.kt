@@ -8,46 +8,61 @@ import me.nathanfallet.cloudflare.models.CloudflareResponse
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecord
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecordPayload
 import me.nathanfallet.usecases.context.IContext
+import me.nathanfallet.usecases.models.id.RecursiveId
 
 class DNSRecordsRepository(
     private val cloudflareClient: CloudflareClient,
 ) : IDNSRecordsRepository {
 
-    override suspend fun list(parentId: String, context: IContext?): List<DNSRecord> {
-        return cloudflareClient.createRequest(HttpMethod.Get, "/zones/$parentId/dns_records")
+    override suspend fun list(parentId: RecursiveId<*, String, *>, context: IContext?): List<DNSRecord> {
+        return cloudflareClient.request(HttpMethod.Get, "/zones/${parentId.id}/dns_records")
             .body<CloudflareResponse<List<DNSRecord>>>().result ?: emptyList()
     }
 
-    override suspend fun list(limit: Long, offset: Long, parentId: String, context: IContext?): List<DNSRecord> {
+    override suspend fun list(
+        limit: Long,
+        offset: Long,
+        parentId: RecursiveId<*, String, *>,
+        context: IContext?,
+    ): List<DNSRecord> {
         val page = (offset / limit) + 1
-        return cloudflareClient.createRequest(HttpMethod.Get, "/zones/$parentId/dns_records") {
+        return cloudflareClient.request(HttpMethod.Get, "/zones/${parentId.id}/dns_records") {
             parameter("per_page", limit)
             parameter("page", page)
         }.body<CloudflareResponse<List<DNSRecord>>>().result ?: emptyList()
     }
 
-    override suspend fun create(payload: DNSRecordPayload, parentId: String, context: IContext?): DNSRecord? {
-        return cloudflareClient.createRequest(HttpMethod.Post, "/zones/$parentId/dns_records") {
+    override suspend fun create(
+        payload: DNSRecordPayload,
+        parentId: RecursiveId<*, String, *>,
+        context: IContext?,
+    ): DNSRecord? {
+        return cloudflareClient.request(HttpMethod.Post, "/zones/${parentId.id}/dns_records") {
             contentType(ContentType.Application.Json)
             setBody(payload)
         }.body<CloudflareResponse<DNSRecord>>().result
     }
 
-    override suspend fun delete(id: String, parentId: String, context: IContext?): Boolean {
-        return cloudflareClient.createRequest(HttpMethod.Delete, "/zones/$parentId/dns_records/$id")
+    override suspend fun delete(id: String, parentId: RecursiveId<*, String, *>, context: IContext?): Boolean {
+        return cloudflareClient.request(HttpMethod.Delete, "/zones/${parentId.id}/dns_records/$id")
             .body<CloudflareResponse<DNSRecord>>().result != null
     }
 
-    override suspend fun get(id: String, parentId: String, context: IContext?): DNSRecord? {
-        return cloudflareClient.createRequest(HttpMethod.Get, "/zones/$parentId/dns_records/$id")
+    override suspend fun get(id: String, parentId: RecursiveId<*, String, *>, context: IContext?): DNSRecord? {
+        return cloudflareClient.request(HttpMethod.Get, "/zones/${parentId.id}/dns_records/$id")
             .body<CloudflareResponse<DNSRecord>>().result
     }
 
-    override suspend fun update(id: String, payload: DNSRecordPayload, parentId: String, context: IContext?): Boolean {
-        return cloudflareClient.createRequest(HttpMethod.Put, "/zones/$parentId/dns_records/$id") {
+    override suspend fun update(
+        id: String,
+        payload: DNSRecordPayload,
+        parentId: RecursiveId<*, String, *>,
+        context: IContext?,
+    ): DNSRecord? {
+        return cloudflareClient.request(HttpMethod.Put, "/zones/${parentId.id}/dns_records/$id") {
             contentType(ContentType.Application.Json)
             setBody(payload)
-        }.body<CloudflareResponse<DNSRecord>>().result != null
+        }.body<CloudflareResponse<DNSRecord>>().result
     }
 
 }
