@@ -14,44 +14,44 @@ class ZonesRepository(
 ) : IZonesRepository {
 
     override suspend fun list(context: IContext?): List<Zone> {
-        return cloudflareClient.createRequest(HttpMethod.Get, "/zones")
+        return cloudflareClient.request(HttpMethod.Get, "/zones")
             .body<CloudflareResponse<List<Zone>>>().result ?: emptyList()
     }
 
     override suspend fun list(limit: Long, offset: Long, context: IContext?): List<Zone> {
         val page = (offset / limit) + 1
-        return cloudflareClient.createRequest(HttpMethod.Get, "/zones") {
+        return cloudflareClient.request(HttpMethod.Get, "/zones") {
             parameter("per_page", limit)
             parameter("page", page)
         }.body<CloudflareResponse<List<Zone>>>().result ?: emptyList()
     }
 
     override suspend fun create(payload: ZonePayload, context: IContext?): Zone? {
-        return cloudflareClient.createRequest(HttpMethod.Post, "/zones") {
+        return cloudflareClient.request(HttpMethod.Post, "/zones") {
             contentType(ContentType.Application.Json)
             setBody(payload)
         }.body<CloudflareResponse<Zone>>().result
     }
 
     override suspend fun delete(id: String, context: IContext?): Boolean {
-        return cloudflareClient.createRequest(HttpMethod.Delete, "/zones/$id")
+        return cloudflareClient.request(HttpMethod.Delete, "/zones/$id")
             .body<CloudflareResponse<Zone>>().result != null
     }
 
     override suspend fun get(id: String, context: IContext?): Zone? {
-        return cloudflareClient.createRequest(HttpMethod.Get, "/zones/$id")
+        return cloudflareClient.request(HttpMethod.Get, "/zones/$id")
             .body<CloudflareResponse<Zone>>().result
     }
 
-    override suspend fun update(id: String, payload: ZonePayload, context: IContext?): Boolean {
-        return cloudflareClient.createRequest(HttpMethod.Put, "/zones/$id") {
+    override suspend fun update(id: String, payload: ZonePayload, context: IContext?): Zone? {
+        return cloudflareClient.request(HttpMethod.Put, "/zones/$id") {
             contentType(ContentType.Application.Json)
             setBody(payload)
-        }.body<CloudflareResponse<Zone>>().result != null
+        }.body<CloudflareResponse<Zone>>().result
     }
 
     override suspend fun purgeCache(id: String, values: List<String>, key: String) {
-        cloudflareClient.createRequest(HttpMethod.Post, "/zones/$id/purge_cache") {
+        cloudflareClient.request(HttpMethod.Post, "/zones/$id/purge_cache") {
             contentType(ContentType.Application.Json)
             setBody(mapOf(key to values))
         }
