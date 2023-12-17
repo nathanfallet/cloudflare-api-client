@@ -24,10 +24,10 @@ class CloudflareClient(
 
     override suspend fun request(
         method: HttpMethod,
-        url: String,
+        path: String,
         builder: HttpRequestBuilder.() -> Unit,
     ): HttpResponse {
-        return super.request(method, url) {
+        return super.request(method, path) {
             header("Authorization", "Bearer $token")
             builder()
         }

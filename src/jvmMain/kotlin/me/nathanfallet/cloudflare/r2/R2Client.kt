@@ -38,10 +38,10 @@ class R2Client(
 
     override suspend fun request(
         method: HttpMethod,
-        url: String,
+        path: String,
         builder: HttpRequestBuilder.() -> Unit,
     ): HttpResponse {
-        val request = HttpRequest(method.value, URI(this.url + url))
+        val request = HttpRequest(method.value, URI(url + path))
         val contentSha256 = "UNSIGNED-PAYLOAD"
         val amzDate = Clock.System.now().toLocalDateTime(TimeZone.UTC).toJavaLocalDateTime().let {
             DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").format(it)
@@ -54,7 +54,7 @@ class R2Client(
             .header("x-amz-date", amzDate)
             .buildS3(request, contentSha256)
             .signature
-        return super.request(method, url) {
+        return super.request(method, path) {
             header("x-amz-content-sha256", contentSha256)
             header("x-amz-date", amzDate)
             header("Authorization", signature)
