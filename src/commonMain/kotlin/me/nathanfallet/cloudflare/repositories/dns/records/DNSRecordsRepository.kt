@@ -3,7 +3,7 @@ package me.nathanfallet.cloudflare.repositories.dns.records
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import me.nathanfallet.cloudflare.client.CloudflareClient
+import me.nathanfallet.cloudflare.client.ICloudflareClient
 import me.nathanfallet.cloudflare.models.CloudflareResponse
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecord
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecordPayload
@@ -13,7 +13,7 @@ import me.nathanfallet.usecases.models.id.RecursiveId
 import me.nathanfallet.usecases.models.repositories.remote.IChildModelRemoteRepository
 
 class DNSRecordsRepository(
-    private val cloudflareClient: CloudflareClient,
+    private val cloudflareClient: ICloudflareClient,
 ) : IChildModelRemoteRepository<DNSRecord, String, DNSRecordPayload, DNSRecordPayload, String>, IDNSRecordsRepository {
 
     override suspend fun list(parentId: RecursiveId<*, String, *>, context: IContext?): List<DNSRecord> {

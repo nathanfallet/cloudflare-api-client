@@ -3,7 +3,7 @@ package me.nathanfallet.cloudflare.repositories.zones
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import me.nathanfallet.cloudflare.client.CloudflareClient
+import me.nathanfallet.cloudflare.client.ICloudflareClient
 import me.nathanfallet.cloudflare.models.CloudflareResponse
 import me.nathanfallet.cloudflare.models.zones.Zone
 import me.nathanfallet.cloudflare.models.zones.ZonePayload
@@ -11,7 +11,7 @@ import me.nathanfallet.usecases.context.IContext
 import me.nathanfallet.usecases.models.repositories.remote.IModelRemoteRepository
 
 class ZonesRepository(
-    private val cloudflareClient: CloudflareClient,
+    private val cloudflareClient: ICloudflareClient,
 ) : IZonesRepository, IModelRemoteRepository<Zone, String, ZonePayload, ZonePayload> {
 
     override suspend fun list(context: IContext?): List<Zone> {
