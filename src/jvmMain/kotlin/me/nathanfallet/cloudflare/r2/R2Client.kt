@@ -34,14 +34,13 @@ class R2Client(
 ), IR2Client {
 
     private val host = "$accountId.r2.cloudflarestorage.com"
-    private val url = "https://$host/$bucket"
 
     override suspend fun request(
         method: HttpMethod,
         path: String,
         builder: HttpRequestBuilder.() -> Unit,
     ): HttpResponse {
-        val request = HttpRequest(method.value, URI(url + path))
+        val request = HttpRequest(method.value, URI(baseUrl + path))
         val contentSha256 = "UNSIGNED-PAYLOAD"
         val amzDate = Clock.System.now().toLocalDateTime(TimeZone.UTC).toJavaLocalDateTime().let {
             DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").format(it)
