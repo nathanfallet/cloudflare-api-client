@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.2.1"
+version = "4.2.2"
 
 repositories {
     mavenCentral()
@@ -56,15 +56,14 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
 
-    val ktorxVersion = "1.8.3"
-    val usecasesVersion = "1.5.5"
+    val ktorxVersion = "2.0.3"
+    val usecasesVersion = "1.5.6"
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 
-                api("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
                 api("me.nathanfallet.usecases:usecases:$usecasesVersion")
                 api("me.nathanfallet.ktorx:ktor-routers-client:$ktorxVersion")
             }
