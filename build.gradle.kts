@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.2.2"
+version = "4.2.3"
 
 repositories {
     mavenCentral()
@@ -56,22 +56,16 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
 
-    val ktorxVersion = "2.0.3"
-    val usecasesVersion = "1.5.6"
+    val ktorxVersion = "2.2.3"
+    val usecasesVersion = "1.6.0"
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
                 api("me.nathanfallet.usecases:usecases:$usecasesVersion")
                 api("me.nathanfallet.ktorx:ktor-routers-client:$ktorxVersion")
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation("io.mockative:mockative:2.0.1")
             }
         }
         val jvmMain by getting {
@@ -80,12 +74,4 @@ kotlin {
             }
         }
     }
-}
-
-dependencies {
-    configurations
-        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
-        .forEach {
-            add(it.name, "io.mockative:mockative-processor:2.0.1")
-        }
 }

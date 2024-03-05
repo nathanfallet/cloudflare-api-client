@@ -11,6 +11,7 @@ import me.nathanfallet.cloudflare.models.zones.Zone
 import me.nathanfallet.usecases.context.IContext
 import me.nathanfallet.usecases.models.id.RecursiveId
 import me.nathanfallet.usecases.models.repositories.remote.IChildModelRemoteRepository
+import me.nathanfallet.usecases.pagination.Pagination
 
 class DNSRecordsRepository(
     private val cloudflareClient: ICloudflareClient,
@@ -26,20 +27,19 @@ class DNSRecordsRepository(
     }
 
     override suspend fun list(
-        limit: Long,
-        offset: Long,
+        pagination: Pagination,
         parentId: RecursiveId<*, String, *>,
         context: IContext?,
     ): List<DNSRecord> {
-        val page = (offset / limit) + 1
+        val page = (pagination.offset / pagination.limit) + 1
         return cloudflareClient.request(HttpMethod.Get, "/zones/${parentId.id}/dns_records") {
-            parameter("per_page", limit)
+            parameter("per_page", pagination.limit)
             parameter("page", page)
         }.body<CloudflareResponse<List<DNSRecord>>>().result ?: emptyList()
     }
 
-    override suspend fun list(limit: Long, offset: Long, zoneId: String): List<DNSRecord> {
-        return list(limit, offset, RecursiveId<Zone, String, Unit>(zoneId))
+    override suspend fun list(pagination: Pagination, zoneId: String): List<DNSRecord> {
+        return list(pagination, RecursiveId<Zone, String, Unit>(zoneId))
     }
 
     override suspend fun create(

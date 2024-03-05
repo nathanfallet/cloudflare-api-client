@@ -9,6 +9,7 @@ import me.nathanfallet.cloudflare.models.zones.Zone
 import me.nathanfallet.cloudflare.models.zones.ZonePayload
 import me.nathanfallet.usecases.context.IContext
 import me.nathanfallet.usecases.models.repositories.remote.IModelRemoteRepository
+import me.nathanfallet.usecases.pagination.Pagination
 
 class ZonesRepository(
     private val cloudflareClient: ICloudflareClient,
@@ -23,16 +24,16 @@ class ZonesRepository(
         return list(null)
     }
 
-    override suspend fun list(limit: Long, offset: Long, context: IContext?): List<Zone> {
-        val page = (offset / limit) + 1
+    override suspend fun list(pagination: Pagination, context: IContext?): List<Zone> {
+        val page = (pagination.offset / pagination.limit) + 1
         return cloudflareClient.request(HttpMethod.Get, "/zones") {
-            parameter("per_page", limit)
+            parameter("per_page", pagination.limit)
             parameter("page", page)
         }.body<CloudflareResponse<List<Zone>>>().result ?: emptyList()
     }
 
-    override suspend fun list(limit: Long, offset: Long): List<Zone> {
-        return list(limit, offset, null)
+    override suspend fun list(pagination: Pagination): List<Zone> {
+        return list(pagination, null)
     }
 
     override suspend fun create(payload: ZonePayload, context: IContext?): Zone? {

@@ -2,11 +2,12 @@ package me.nathanfallet.cloudflare.repositories.zones
 
 import me.nathanfallet.cloudflare.models.zones.Zone
 import me.nathanfallet.cloudflare.models.zones.ZonePayload
+import me.nathanfallet.usecases.pagination.Pagination
 
 interface IZonesRepository {
 
     suspend fun list(): List<Zone>
-    suspend fun list(limit: Long, offset: Long): List<Zone>
+    suspend fun list(pagination: Pagination): List<Zone>
     suspend fun create(payload: ZonePayload): Zone?
     suspend fun delete(id: String): Boolean
     suspend fun get(id: String): Zone?
