@@ -9,8 +9,7 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
+import me.nathanfallet.cloudflare.models.application.CloudflareJson
 import me.nathanfallet.cloudflare.models.r2.InputStream
 import me.nathanfallet.ktorx.models.api.AbstractAPIClient
 import uk.co.lucasweb.aws.v4.signer.HttpRequest
@@ -19,7 +18,6 @@ import uk.co.lucasweb.aws.v4.signer.credentials.AwsCredentials
 import java.net.URI
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalSerializationApi::class)
 class R2Client(
     private val id: String,
     private val secret: String,
@@ -27,10 +25,7 @@ class R2Client(
     bucket: String,
 ) : AbstractAPIClient(
     "https://$accountId.r2.cloudflarestorage.com/$bucket",
-    json = Json {
-        ignoreUnknownKeys = true
-        explicitNulls = false
-    }
+    json = CloudflareJson.json
 ), IR2Client {
 
     private val host = "$accountId.r2.cloudflarestorage.com"
