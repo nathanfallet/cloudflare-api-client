@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.2.3"
+version = "4.3.0"
 
 repositories {
     mavenCentral()
@@ -70,6 +70,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
+                implementation("io.ktor:ktor-serialization-kotlinx-xml:$ktorxVersion")
                 implementation("uk.co.lucasweb:aws-v4-signer-java:1.3")
             }
         }

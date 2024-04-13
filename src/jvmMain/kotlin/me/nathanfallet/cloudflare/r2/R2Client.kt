@@ -9,9 +9,13 @@ import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.decodeFromString
 import me.nathanfallet.cloudflare.models.application.CloudflareJson
 import me.nathanfallet.cloudflare.models.r2.InputStream
+import me.nathanfallet.cloudflare.models.r2.ListBucketResult
 import me.nathanfallet.ktorx.models.api.AbstractAPIClient
+import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
+import nl.adaptivity.xmlutil.serialization.XML
 import uk.co.lucasweb.aws.v4.signer.HttpRequest
 import uk.co.lucasweb.aws.v4.signer.Signer
 import uk.co.lucasweb.aws.v4.signer.credentials.AwsCredentials
@@ -22,13 +26,17 @@ class R2Client(
     private val id: String,
     private val secret: String,
     accountId: String,
-    bucket: String,
 ) : AbstractAPIClient(
-    "https://$accountId.r2.cloudflarestorage.com/$bucket",
+    "https://$accountId.r2.cloudflarestorage.com",
     json = CloudflareJson.json
 ), IR2Client {
 
     private val host = "$accountId.r2.cloudflarestorage.com"
+    
+    @OptIn(ExperimentalXmlUtilApi::class)
+    private val xml = XML {
+        policy = R2XMLPolicy
+    }
 
     override suspend fun request(
         method: HttpMethod,
@@ -56,16 +64,21 @@ class R2Client(
         }
     }
 
-    override suspend fun upload(path: String, stream: InputStream, contentType: ContentType): Unit =
+    override suspend fun listObjectsV2(bucket: String, prefix: String): ListBucketResult =
+        request(HttpMethod.Get, "/$bucket?list-type=2&prefix=$prefix").bodyAsText().let {
+            xml.decodeFromString(it)
+        }
+
+    override suspend fun putObject(bucket: String, path: String, stream: InputStream, contentType: ContentType): Unit =
         withContext(Dispatchers.IO) {
-            request(HttpMethod.Put, path) {
+            request(HttpMethod.Put, "/$bucket/${path.removePrefix("/")}") {
                 contentType(contentType)
                 setBody(stream.readBytes())
             }
         }
 
-    override suspend fun delete(path: String) {
-        request(HttpMethod.Delete, path)
+    override suspend fun deleteObject(bucket: String, path: String) {
+        request(HttpMethod.Delete, "/$bucket/${path.removePrefix("/")}")
     }
 
 }
