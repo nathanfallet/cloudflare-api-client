@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.3.0"
+version = "4.3.1"
 
 repositories {
     mavenCentral()
@@ -56,7 +56,7 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
 
-    val ktorxVersion = "2.3.0"
+    val ktorxVersion = "2.3.1"
     val usecasesVersion = "1.6.0"
 
     sourceSets {
