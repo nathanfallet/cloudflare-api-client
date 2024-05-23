@@ -1,13 +1,13 @@
 plugins {
-    kotlin("multiplatform") version "1.9.20"
-    kotlin("plugin.serialization") version "1.9.20"
+    kotlin("multiplatform") version "2.0.0"
+    kotlin("plugin.serialization") version "2.0.0"
     id("convention.publication")
-    id("org.jetbrains.kotlinx.kover") version "0.7.4"
-    id("com.google.devtools.ksp") version "1.9.20-1.0.13"
+    id("org.jetbrains.kotlinx.kover") version "0.8.0"
+    id("com.google.devtools.ksp") version "2.0.0-1.0.21"
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.3.1"
+version = "4.3.2"
 
 repositories {
     mavenCentral()
@@ -38,8 +38,8 @@ kotlin {
     //watchosDeviceArm64() // Not supported by ktor
 
     // jvm & js
+    jvmToolchain(21)
     jvm {
-        jvmToolchain(19)
         withJava()
         testRuns.named("test") {
             executionTask.configure {
@@ -56,8 +56,8 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
 
-    val ktorxVersion = "2.3.1"
-    val usecasesVersion = "1.6.0"
+    val ktorxVersion = "2.3.2"
+    val usecasesVersion = "1.6.1"
 
     sourceSets {
         val commonMain by getting {
