@@ -1,5 +1,6 @@
 package me.nathanfallet.cloudflare.r2
 
+import dev.kaccelero.client.AbstractAPIClient
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -13,7 +14,6 @@ import kotlinx.serialization.decodeFromString
 import me.nathanfallet.cloudflare.models.application.CloudflareJson
 import me.nathanfallet.cloudflare.models.r2.InputStream
 import me.nathanfallet.cloudflare.models.r2.ListBucketResult
-import me.nathanfallet.ktorx.models.api.AbstractAPIClient
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.serialization.XML
 import uk.co.lucasweb.aws.v4.signer.HttpRequest
@@ -32,7 +32,7 @@ class R2Client(
 ), IR2Client {
 
     private val host = "$accountId.r2.cloudflarestorage.com"
-    
+
     @OptIn(ExperimentalXmlUtilApi::class)
     private val xml = XML {
         policy = R2XMLPolicy

@@ -1,5 +1,9 @@
 package me.nathanfallet.cloudflare.repositories.dns.records
 
+import dev.kaccelero.models.IContext
+import dev.kaccelero.models.RecursiveId
+import dev.kaccelero.repositories.IChildModelRemoteRepository
+import dev.kaccelero.repositories.Pagination
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -8,10 +12,6 @@ import me.nathanfallet.cloudflare.models.CloudflareResponse
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecord
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecordPayload
 import me.nathanfallet.cloudflare.models.zones.Zone
-import me.nathanfallet.usecases.context.IContext
-import me.nathanfallet.usecases.models.id.RecursiveId
-import me.nathanfallet.usecases.models.repositories.remote.IChildModelRemoteRepository
-import me.nathanfallet.usecases.pagination.Pagination
 
 class DNSRecordsRepository(
     private val cloudflareClient: ICloudflareClient,

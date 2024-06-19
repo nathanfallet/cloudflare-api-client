@@ -1,16 +1,44 @@
 plugins {
     kotlin("multiplatform") version "2.0.0"
     kotlin("plugin.serialization") version "2.0.0"
-    id("convention.publication")
     id("org.jetbrains.kotlinx.kover") version "0.8.0"
     id("com.google.devtools.ksp") version "2.0.0-1.0.21"
+    id("com.vanniktech.maven.publish") version "0.28.0"
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.3.2"
+version = "4.4.0"
 
 repositories {
     mavenCentral()
+}
+
+mavenPublishing {
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+    pom {
+        name.set("cloudflare-api-client")
+        description.set("Kotlin Cloudflare API client")
+        url.set("https://github.com/nathanfallet/cloudflare-api-client")
+
+        licenses {
+            license {
+                name.set("GPL-3.0")
+                url.set("https://opensource.org/licenses/GPL-3.0")
+            }
+        }
+        developers {
+            developer {
+                id.set("NathanFallet")
+                name.set("Nathan Fallet")
+                email.set("contact@nathanfallet.me")
+                url.set("https://www.nathanfallet.me")
+            }
+        }
+        scm {
+            url.set("https://github.com/nathanfallet/cloudflare-api-client.git")
+        }
+    }
 }
 
 kotlin {
@@ -55,22 +83,15 @@ kotlin {
     }
 
     applyDefaultHierarchyTemplate()
-
-    val ktorxVersion = "2.3.2"
-    val usecasesVersion = "1.6.1"
-
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-
-                api("me.nathanfallet.usecases:usecases:$usecasesVersion")
-                api("me.nathanfallet.ktorx:ktor-routers-client:$ktorxVersion")
+                api("dev.kaccelero:ktor-routers-client:0.1.1")
             }
         }
         val jvmMain by getting {
             dependencies {
-                implementation("io.ktor:ktor-serialization-kotlinx-xml:$ktorxVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-xml:2.3.2")
                 implementation("uk.co.lucasweb:aws-v4-signer-java:1.3")
             }
         }

@@ -1,8 +1,8 @@
 package me.nathanfallet.cloudflare.repositories.zones
 
+import dev.kaccelero.repositories.Pagination
 import me.nathanfallet.cloudflare.models.zones.Zone
 import me.nathanfallet.cloudflare.models.zones.ZonePayload
-import me.nathanfallet.usecases.pagination.Pagination
 
 interface IZonesRepository {
 

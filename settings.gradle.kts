@@ -10,4 +10,3 @@ plugins {
 }
 
 rootProject.name = "cloudflare-api-client"
-includeBuild("convention-plugins")

@@ -1,5 +1,8 @@
 package me.nathanfallet.cloudflare.repositories.zones
 
+import dev.kaccelero.models.IContext
+import dev.kaccelero.repositories.IModelRemoteRepository
+import dev.kaccelero.repositories.Pagination
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -7,9 +10,6 @@ import me.nathanfallet.cloudflare.client.ICloudflareClient
 import me.nathanfallet.cloudflare.models.CloudflareResponse
 import me.nathanfallet.cloudflare.models.zones.Zone
 import me.nathanfallet.cloudflare.models.zones.ZonePayload
-import me.nathanfallet.usecases.context.IContext
-import me.nathanfallet.usecases.models.repositories.remote.IModelRemoteRepository
-import me.nathanfallet.usecases.pagination.Pagination
 
 class ZonesRepository(
     private val cloudflareClient: ICloudflareClient,

@@ -1,8 +1,8 @@
 package me.nathanfallet.cloudflare.repositories.dns.records
 
+import dev.kaccelero.repositories.Pagination
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecord
 import me.nathanfallet.cloudflare.models.dns.records.DNSRecordPayload
-import me.nathanfallet.usecases.pagination.Pagination
 
 interface IDNSRecordsRepository {
 

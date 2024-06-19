@@ -1,6 +1,5 @@
 package me.nathanfallet.cloudflare.r2
 
-import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.QName
 import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.OutputKind
@@ -9,7 +8,6 @@ import nl.adaptivity.xmlutil.serialization.XmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.structure.SafeParentInfo
 
 // Inspired from https://github.com/pdvrieze/xmlutil/blob/master/examples/JACKSON.md
-@OptIn(ExperimentalXmlUtilApi::class)
 object R2XMLPolicy : DefaultXmlSerializationPolicy(
     false,
     encodeDefault = XmlSerializationPolicy.XmlEncodeDefault.NEVER,

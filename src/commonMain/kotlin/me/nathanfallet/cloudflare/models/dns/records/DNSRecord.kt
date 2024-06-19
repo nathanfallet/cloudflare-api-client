@@ -1,8 +1,8 @@
 package me.nathanfallet.cloudflare.models.dns.records
 
+import dev.kaccelero.models.IChildModel
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
-import me.nathanfallet.usecases.models.IChildModel
 
 @Serializable
 data class DNSRecord(

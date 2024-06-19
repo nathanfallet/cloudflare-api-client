@@ -1,12 +1,12 @@
 package me.nathanfallet.cloudflare.client
 
+import dev.kaccelero.client.AbstractAPIClient
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import me.nathanfallet.cloudflare.models.application.CloudflareJson
 import me.nathanfallet.cloudflare.repositories.dns.records.DNSRecordsRepository
 import me.nathanfallet.cloudflare.repositories.zones.ZonesRepository
-import me.nathanfallet.ktorx.models.api.AbstractAPIClient
 
 class CloudflareClient(
     private val token: String,

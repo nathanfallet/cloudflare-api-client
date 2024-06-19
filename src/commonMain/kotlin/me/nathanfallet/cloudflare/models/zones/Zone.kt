@@ -1,10 +1,10 @@
 package me.nathanfallet.cloudflare.models.zones
 
+import dev.kaccelero.models.IModel
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import me.nathanfallet.cloudflare.models.accounts.Account
-import me.nathanfallet.usecases.models.IModel
 
 @Serializable
 data class Zone(
