@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.4.0"
+version = "4.4.1"
 
 repositories {
     mavenCentral()
@@ -86,7 +86,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("dev.kaccelero:ktor-routers-client:0.1.1")
+                api("dev.kaccelero:routers-client-ktor:0.2.0")
             }
         }
         val jvmMain by getting {
