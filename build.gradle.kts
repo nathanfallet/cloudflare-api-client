@@ -1,13 +1,13 @@
 plugins {
-    kotlin("multiplatform") version "2.0.0"
-    kotlin("plugin.serialization") version "2.0.0"
-    id("org.jetbrains.kotlinx.kover") version "0.8.0"
-    id("com.google.devtools.ksp") version "2.0.0-1.0.21"
+    kotlin("multiplatform") version "2.0.20"
+    kotlin("plugin.serialization") version "2.0.20"
+    id("org.jetbrains.kotlinx.kover") version "0.8.3"
+    id("com.google.devtools.ksp") version "2.0.20-1.0.24"
     id("com.vanniktech.maven.publish") version "0.28.0"
 }
 
 group = "me.nathanfallet.cloudflare"
-version = "4.4.1"
+version = "4.4.2"
 
 repositories {
     mavenCentral()
@@ -86,7 +86,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("dev.kaccelero:routers-client-ktor:0.2.0")
+                api("dev.kaccelero:routers-client-ktor:0.3.0")
             }
         }
         val jvmMain by getting {
