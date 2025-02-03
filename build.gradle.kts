@@ -86,7 +86,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api("dev.kaccelero:routers-client-ktor:0.3.0")
+                api("dev.kaccelero:routers-client-ktor:0.4.3")
             }
         }
         val jvmMain by getting {
